@@ -14,8 +14,8 @@
 <body>
 	<div id="main">
 	
-	<form method="post" id="uploadForm" name="uploadForm" type="POST" action="" enctype="application/json">
-		<fieldset>
+	<form method="post" id="uploadForm" name="uploadForm" type="POST" action="" enctype="multipart/form-data">
+	
 			<legend> Upload a profile picture</legend>
 			<div>
 				<label for="coachid"> Coach ID </label>
@@ -23,12 +23,11 @@
 			</div>
 			<div>
 				<label for="picture">Choose a profile picture</label>
-				<input type="file" accept ="image/*" name="picfile" id="picfile">
+			<input type="file" accept ="image/*" name="picfile" id="picfile"> 
 			</div>
 			<div>
 				<input type="submit" id="btn" name="btn" value="submit">
-			
-		</fieldset>
+		
 				
 		
 	</form>
