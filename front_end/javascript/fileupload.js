@@ -5,6 +5,8 @@
 */
 //https://nodejs.org/api/http.html
 
+//http://www.codedodle.com/2016/10/nodejs-image-uploader-using-express-and.html
+
 //try this
 //https://code.tutsplus.com/tutorials/uploading-files-with-ajax--net-21077
 
@@ -44,8 +46,23 @@ $(document).ready(function(){
                
             },
             contentType: false, 
+            xhr : function(){
+                let xhr = new XMLHttpRequest();
+                xhr.upload.addEventListener('progress', function(event){
+                    let progressBar = $('.progress-bar');
+
+                    if(event.lengthComputable){
+                        let percent = (event.loaded / event.total) * 100;
+                        progressBar.width(percent + '%');
+                        if(percent === 100){
+                            progressBar.removeClass('active')
+                        }
+                    }
+                });
+                return xhr;
+            }
             
-            dataType: 'json',
+            /*dataType: 'json',
             success: function(data){
                 $("#response").append("<p> uploaded picture for coach ID: " + data.value + "</p>");
                 console.log(data);
@@ -53,10 +70,21 @@ $(document).ready(function(){
             error: function(err){
                 console.log("error "+ err.error);
             }
+        });*/
+        }).done(isSuccess).fail(function ( xhr, status){
+            console.log(status);
         });
-    });
-
+        function isSuccess(data){
+            console.log("success");
+    }
+    })
 });
+
+    
+
+
+
+
 
 
 
