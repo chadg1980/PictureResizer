@@ -1,23 +1,41 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
 
 <meta charset="utf-8">
-<meta name="csrf-token" content="XYZ123">
-<title>dropzone Example</title>
-<link rel="stylesheet" href="css/dropzone.css">
-<script type="text/javascript" src="javascript/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="javascript/dropzone.js"></script>
-<script type="text/javascript" src="javascript/fileupload.js"></script>
+<title>Coach Profile Picture Uploader</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="css/fileupload.css">
+
+
 </head>
 
 <body>
-	<form action="" id="upload-widget" method="POST" class="dropzone" enctype="multipart/form-data">
-		<div class="fallback">
-			<input type="file" name="file"/>
-		</div>
+	<div id="main">
+	
+	<form method="post" id="uploadForm" name="uploadForm" type="POST" action="" enctype="application/json">
+		<fieldset>
+			<legend> Upload a profile picture</legend>
+			<div>
+				<label for="coachid"> Coach ID </label>
+				<input type="number" name="coachid">
+			</div>
+			<div>
+				<label for="picture">Choose a profile picture</label>
+				<input type="file" accept ="image/*" name="picfile" id="picfile">
+			</div>
+			<div>
+				<input type="submit" id="btn" name="btn" value="submit">
+			
+		</fieldset>
+				
 		
 	</form>
+	<div id="response"><ul id="image-list"></ul>
+</div>
 
+<script type="text/javascript" src="javascript/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="javascript/fileupload.js"></script>
 </body> 
 </html>

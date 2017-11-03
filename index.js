@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const jimp = require('jimp');
+const util = require('util');
 const bodyParser = require('body-parser');
 const querystring = require('querystring');
 const fs = require('fs');
@@ -27,8 +28,10 @@ app.post( '/upload',  upload.single('file'), (req, res, next) =>{
 		});
 	}
 	
-	
-	console.log(JSON.stringify(req.file));
+	console.log(req.body);
+	console.log("************************");
+	console.log("file Received" + util.inspect(req.file, {showHidden: false, depth: null}));
+	console.log("************************");
 	//convertImages(req.file.dataURL);
 
 
