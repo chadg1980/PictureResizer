@@ -9,6 +9,7 @@
 
 //try this
 //https://code.tutsplus.com/tutorials/uploading-files-with-ajax--net-21077
+//https://github.com/krisgholson/serverless-thumbnail
 
 $(document).ready(function(){
     $( '#uploadForm').submit(function( event ){
@@ -75,7 +76,8 @@ $(document).ready(function(){
             console.log(status);
         });
         function isSuccess(data){
-            console.log("success");
+                       
+            $("#response").append("<p> uploaded picture for coach ID: " + data.value + "</p>");
     }
     })
 });
