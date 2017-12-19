@@ -23,14 +23,17 @@
 			</div>
 			<div>
 				<label for="picture">Choose a profile picture</label>
-			<input type="file" accept ="image/*" name="picfile" id="picfile"> 
+			<input type="file" multiple accept ="image/*" name="picfile" id="picfile"> 
 			</div>
 			<div>
 				<input type="submit" id="btn" name="btn" value="submit">
+
 		
 				
 		
 	</form>
+	<br/>
+	
 	<br/>
 	<!-- Progress Bar -->
 <div class="row">
@@ -38,15 +41,18 @@
         <div class="progress">
             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                 <span class="sr-only"></span>
+
             </div>
         </div>
     </div>
 </div>
 
-	<div id="response"><ul id="image-list"></ul>
+	<div id="response"><ul id="image-list"><img src="" height="200" alt="Image preview..." id="previewImage"></ul>
 </div>
 
 <script type="text/javascript" src="javascript/jquery-3.2.1.min.js"></script>
+
 <script type="text/javascript" src="javascript/fileupload.js"></script>
+
 </body> 
 </html>

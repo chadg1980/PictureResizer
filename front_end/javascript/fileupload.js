@@ -15,35 +15,35 @@ $(document).ready(function(){
     $( '#uploadForm').submit(function( event ){
         event.preventDefault();
 
-        
         let myData = $('#uploadForm').serializeArray();
-        let fileData = document.getElementById("picfile").files;
+        
+        
+        let fileData = $('#picfile')[0].files[0];
         if(fileData.length === 0 || fileData.length >= 2){
             alert("must upload 1 image");
         }
+        console.log(fileData);
+        
+        let base64 = previewFile(fileData);
+        console.log(base64);
 
-        let fileDetail = {
-            "name" : fileData[0].name,
-            "size" : fileData[0].size,
-            "type" : fileData[0].type,
+        let acceptType = {
+            binary : ["image/png", "image/jpeg", "image/gif"]
         };
+        fileData.coachid = myData[0].value;
+        //console.log(fileData);
+
+              
+       
         
-        //myData.push( {name:"filedata", value: fileData[0]} );
-        myData.push(fileDetail);
-        
-        console.log(myData);        
-        myData = JSON.stringify( myData ); 
-        console.log(myData);        
-                        
         $.ajax({
-            url : 'https://gbb8xz2947.execute-api.us-east-1.amazonaws.com/example_test',
-            Accept: "images/*", 
+            url : '',//https://gbb8xz2947.execute-api.us-east-1.amazonaws.com/coach_pic',
+            Accept: "image/png", 
             type: 'post',
             processData: false,
-            data: myData, 
+            data: fileData, 
             headers: {
-               'Content-Type': 'application/json', 
-               'header1': 'API Gateway and AWS Lambda'
+               'Content-Type': 'image/png', 
                
             },
             contentType: false, 
@@ -56,31 +56,39 @@ $(document).ready(function(){
                         let percent = (event.loaded / event.total) * 100;
                         progressBar.width(percent + '%');
                         if(percent === 100){
-                            progressBar.removeClass('active')
+                            progressBar.removeClass('active');
                         }
                     }
                 });
                 return xhr;
             }
             
-            /*dataType: 'json',
-            success: function(data){
-                $("#response").append("<p> uploaded picture for coach ID: " + data.value + "</p>");
-                console.log(data);
-            }, 
-            error: function(err){
-                console.log("error "+ err.error);
-            }
-        });*/
-        }).done(isSuccess).fail(function ( xhr, status){
-            console.log(status);
+            
+        }).done(isSuccess).fail(function (xhr, status){
+            console.log("status: " + status);
         });
         function isSuccess(data){
-                       
-            $("#response").append("<p> uploaded picture for coach ID: " + data.value + "</p>");
+                       //console.log("data: " + data);
+            //$('#response').append('<p> uploaded picture for coach ID: ' + data.value + '</p>');
     }
     })
 });
+
+function previewFile(file) {
+  
+  var reader  = new FileReader();
+
+  reader.addEventListener("load", function () {
+    //preview.src = reader.result;
+  }, false);
+
+  if (file) {
+    return reader.readAsDataURL(file);
+  }
+}
+
+
+
 
     
 
