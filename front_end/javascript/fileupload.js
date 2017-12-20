@@ -24,26 +24,25 @@ $(document).ready(function(){
         }
         console.log(fileData);
         
-        let base64 = previewFile(fileData);
-        console.log(base64);
-
         let acceptType = {
             binary : ["image/png", "image/jpeg", "image/gif"]
         };
-        fileData.coachid = myData[0].value;
+        let coachid = myData[0].value;
+        const url_up = 'https://gbb8xz2947.execute-api.us-east-1.amazonaws.com/proxy/Coachpic?coachid='
+        let url_with_param = url_up + coachid;
         //console.log(fileData);
 
               
        
         
         $.ajax({
-            url : '',//https://gbb8xz2947.execute-api.us-east-1.amazonaws.com/coach_pic',
-            Accept: "image/png", 
+            url : url_with_param,
+            Accept: "img/png", 
             type: 'post',
             processData: false,
             data: fileData, 
             headers: {
-               'Content-Type': 'image/png', 
+               'Content-Type': 'application/json', 
                
             },
             contentType: false, 
@@ -68,24 +67,13 @@ $(document).ready(function(){
             console.log("status: " + status);
         });
         function isSuccess(data){
-                       //console.log("data: " + data);
-            //$('#response').append('<p> uploaded picture for coach ID: ' + data.value + '</p>');
+                       console.log(data);
+            $('#response').append('<p> uploaded picture for coach ID: ' + data.value + '</p>');
     }
     })
 });
 
-function previewFile(file) {
-  
-  var reader  = new FileReader();
 
-  reader.addEventListener("load", function () {
-    //preview.src = reader.result;
-  }, false);
-
-  if (file) {
-    return reader.readAsDataURL(file);
-  }
-}
 
 
 

@@ -54,6 +54,7 @@ const resize = (req, callback) => {
     if (!resizeReq.height && !resizeReq.width) {
         resizeReq.width = 200;
     }
+    
     const resizedFile = `/tmp/resized.${(resizeReq.outputExtension || 'png')}`;
     const buffer = new Buffer(resizeReq.base64Image, 'base64');
     delete resizeReq.base64Image;
@@ -108,16 +109,53 @@ const convert = (req, callback) => {
 
 
 exports.handler = (event, context, callback) => {
+     console.log("LAmbda started at 3:00");
+     let responseCode = 200;
+     let this_coachid = 0;
+     
+    console.log(JSON.stringify(response));
+    
+    
+    if (event.queryStringParameters !== null && event.queryStringParameters !== undefined) {
+        if (event.queryStringParameters.coachid !== undefined && 
+            event.queryStringParameters.coachid !== null && 
+            event.queryStringParameters.coachid !== "") {
+                
+                this_coachid = event.queryStringParameters.coachid;
+        }
+    }
+    
+    console.log ("Coach ID should be: " + this_coachid + " !!!");
+    
+    
     const req = event;
-    const operation = req.operation;
-    delete req.operation;
+    var encodedImage = new Buffer( req.body, 'binary').toString('base64');
+    //let buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ""),'base64')
+    //const operation = "resize";
+    //console.log(buf.toString('utf8'));
+    const operation = 'ping';
+    
+    //delete req.operation;
     if (operation) {
         console.log(`Operation ${operation} 'requested`);
     }
-
+    
+    
+    //callback(null, response);
+    var response = {
+        
+        statusCode: responseCode,
+        headers: {
+            "x-custom-header" : "my custom header value"
+        },
+        body: JSON.stringify(responseBody),
+        isBase64Encoded : true
+    };
+    
     switch (operation) {
         case 'ping':
-            callback(null, 'pong');
+            //callback(null, 'pong');
+            callback(null, response);
             break;
         case 'getDimensions':
             req.customArgs = ['-format', '%wx%h'];
@@ -140,3 +178,21 @@ exports.handler = (event, context, callback) => {
             callback(new Error(`Unrecognized operation "${operation}"`));
     }
 };
+
+// The output from a Lambda proxy integration must be 
+    // of the following JSON object. The 'headers' property 
+    // is for custom response headers in addition to standard 
+    // ones. The 'body' property  must be a JSON string. For 
+    // base64-encoded payload, you must also set the 'isBase64Encoded'
+    // property to 'true'.
+    /*
+    var response = {
+        statusCode: responseCode,
+        headers: {
+            "x-custom-header" : "my custom header value"
+        },
+        body: JSON.stringify(responseBody)
+    };
+    console.log("response: " + JSON.stringify(response))
+    callback(null, response);
+    */
