@@ -36,7 +36,7 @@ $(document).ready(function(){
        
         
         $.ajax({
-            url : url_with_param,
+             url : url_with_param,
             Accept: "img/png", 
             type: 'post',
             processData: false,
@@ -48,6 +48,8 @@ $(document).ready(function(){
             contentType: false, 
             xhr : function(){
                 let xhr = new XMLHttpRequest();
+                xhr.overrideMimeType("text/plain");
+
                 xhr.upload.addEventListener('progress', function(event){
                     let progressBar = $('.progress-bar');
 
@@ -68,7 +70,7 @@ $(document).ready(function(){
         });
         function isSuccess(data){
                        console.log(data);
-            $('#response').append('<p> uploaded picture for coach ID: ' + data.value + '</p>');
+            //$('#response').append('<p> uploaded picture for coach ID: ' + data.value + '</p>');
     }
     })
 });
