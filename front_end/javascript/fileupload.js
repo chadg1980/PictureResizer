@@ -66,7 +66,7 @@ $(document).ready(function(){
             
             
         }).done(isSuccess).fail(function (xhr, status){
-            consoel.log("status: " + status);
+            console.log("status: " + status);
         });
         function isSuccess(data){
                        console.log(data);

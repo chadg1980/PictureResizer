@@ -1,0 +1,4 @@
+{
+    "operation": "resize", 
+    "base64Image": "$input.body"
+}
