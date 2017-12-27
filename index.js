@@ -45,7 +45,9 @@ const identify = (req, callback) => {
 const resize = (req, callback) => {
     const resizeReq = req;
     
-    if (!resizeReq.base64Image) {
+    //console.log(req.body);
+    
+    if (!resizeReq.body) {
         const msg = 'Invalid resize request: no "base64Image" field supplied';
         console.log(msg);
         return callback(msg);
@@ -56,8 +58,10 @@ const resize = (req, callback) => {
     }
     
     const resizedFile = `/tmp/resized.${(resizeReq.outputExtension || 'png')}`;
-    const buffer = new Buffer(resizeReq.base64Image, 'base64');
-    delete resizeReq.base64Image;
+    const buffer = new Buffer(resizeReq.body, 'base64');
+    console.log("Made it to resize buffer");
+    console.log(buffer);
+    delete resizeReq.body;
     delete resizeReq.outputExtension;
     resizeReq.srcData = buffer;
     resizeReq.dstPath = resizedFile;
@@ -109,11 +113,16 @@ const convert = (req, callback) => {
 
 
 exports.handler = (event, context, callback) => {
-     console.log("LAmbda started at 3:00");
+     console.log("Lambda started at 3:30");
      let responseCode = 200;
      let this_coachid = 0;
+     let message = "message";
+     let greeting = "Hello World";
      
-    console.log(JSON.stringify(response));
+     let responseBody = {
+        message: greeting
+        
+    };
     
     
     if (event.queryStringParameters !== null && event.queryStringParameters !== undefined) {
@@ -129,11 +138,8 @@ exports.handler = (event, context, callback) => {
     
     
     const req = event;
-    var encodedImage = new Buffer( req.body, 'binary').toString('base64');
-    //let buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ""),'base64')
-    //const operation = "resize";
-    //console.log(buf.toString('utf8'));
-    const operation = 'ping';
+   
+    const operation = 'resize';
     
     //delete req.operation;
     if (operation) {
@@ -141,7 +147,7 @@ exports.handler = (event, context, callback) => {
     }
     
     
-    //callback(null, response);
+    //req.base64Image = new Buffer(req.body).toString('base64');
     var response = {
         
         statusCode: responseCode,
@@ -151,6 +157,8 @@ exports.handler = (event, context, callback) => {
         body: JSON.stringify(responseBody),
         isBase64Encoded : true
     };
+    
+    console.log(JSON.stringify(response));
     
     switch (operation) {
         case 'ping':
