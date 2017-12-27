@@ -196,6 +196,7 @@ exports.handler = (event, context, callback) => {
     // base64-encoded payload, you must also set the 'isBase64Encoded'
     // property to 'true'.
     /*
+    
     var response = {
         statusCode: responseCode,
         headers: {
