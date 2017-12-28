@@ -45,9 +45,7 @@ const identify = (req, callback) => {
 const resize = (req, callback) => {
     const resizeReq = req;
     
-    //console.log(req.body);
-    
-    if (!resizeReq.body) {
+    if (!resizeReq.base64Image) {
         const msg = 'Invalid resize request: no "base64Image" field supplied';
         console.log(msg);
         return callback(msg);
@@ -56,17 +54,12 @@ const resize = (req, callback) => {
     if (!resizeReq.height && !resizeReq.width) {
         resizeReq.width = 200;
     }
-    
     const resizedFile = `/tmp/resized.${(resizeReq.outputExtension || 'png')}`;
-    const buffer = new Buffer(resizeReq.body, 'base64');
-    console.log("Made it to resize buffer");
-    console.log(buffer);
-    delete resizeReq.body;
+    const buffer = new Buffer(resizeReq.base64Image, 'base64');
+    delete resizeReq.base64Image;
     delete resizeReq.outputExtension;
     resizeReq.srcData = buffer;
     resizeReq.dstPath = resizedFile;
-    console.log("beinning of resize");
-    //Error happens in funtion below
     try {
         im.resize(resizeReq, (err) => {
             if (err) {
@@ -115,57 +108,16 @@ const convert = (req, callback) => {
 
 
 exports.handler = (event, context, callback) => {
-     console.log("Lambda started at 3:30");
-     let responseCode = 200;
-     let this_coachid = 0;
-     let message = "message";
-     let greeting = "Hello World";
-     
-     let responseBody = {
-        message: greeting
-        
-    };
-    
-    
-    if (event.queryStringParameters !== null && event.queryStringParameters !== undefined) {
-        if (event.queryStringParameters.coachid !== undefined && 
-            event.queryStringParameters.coachid !== null && 
-            event.queryStringParameters.coachid !== "") {
-                
-                this_coachid = event.queryStringParameters.coachid;
-        }
-    }
-    
-    console.log ("Coach ID should be: " + this_coachid + " !!!");
-    
-    
     const req = event;
-   
-    const operation = 'resize';
-    
-    //delete req.operation;
+    const operation = req.operation;
+    delete req.operation;
     if (operation) {
         console.log(`Operation ${operation} 'requested`);
     }
-    
-    
-    //req.base64Image = new Buffer(req.body).toString('base64');
-    var response = {
-        
-        statusCode: responseCode,
-        headers: {
-            "x-custom-header" : "my custom header value"
-        },
-        body: JSON.stringify(responseBody),
-        isBase64Encoded : true
-    };
-    
-    console.log(JSON.stringify(response));
-    
+
     switch (operation) {
         case 'ping':
-            //callback(null, 'pong');
-            callback(null, response);
+            callback(null, 'pong');
             break;
         case 'getDimensions':
             req.customArgs = ['-format', '%wx%h'];
@@ -188,22 +140,3 @@ exports.handler = (event, context, callback) => {
             callback(new Error(`Unrecognized operation "${operation}"`));
     }
 };
-
-// The output from a Lambda proxy integration must be 
-    // of the following JSON object. The 'headers' property 
-    // is for custom response headers in addition to standard 
-    // ones. The 'body' property  must be a JSON string. For 
-    // base64-encoded payload, you must also set the 'isBase64Encoded'
-    // property to 'true'.
-    /*
-    
-    var response = {
-        statusCode: responseCode,
-        headers: {
-            "x-custom-header" : "my custom header value"
-        },
-        body: JSON.stringify(responseBody)
-    };
-    console.log("response: " + JSON.stringify(response))
-    callback(null, response);
-    */
