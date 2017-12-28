@@ -2,6 +2,8 @@
 
 const im = require('imagemagick');
 const fs = require('fs');
+const AWS = require("aws-sdk");
+let s3 = new AWS.s3();
 
 
 const postProcessResource = (resource, fn) => {

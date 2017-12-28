@@ -28,7 +28,7 @@ $(document).ready(function(){
             binary : ["image/png", "image/jpeg", "image/gif"]
         };
         let coachid = myData[0].value;
-        const url_up = 'https://gbb8xz2947.execute-api.us-east-1.amazonaws.com/proxy/Coachpic?coachid='
+        const url_up = 'https://gbb8xz2947.execute-api.us-east-1.amazonaws.com/coach_pic?coachid='
         let url_with_param = url_up + coachid;
         //console.log(fileData);
 
@@ -37,15 +37,15 @@ $(document).ready(function(){
         
         $.ajax({
              url : url_with_param,
-            Accept: "img/png", 
+            Accepts: "img/png", 
             type: 'post',
             processData: false,
             data: fileData, 
             headers: {
-               'Content-Type': 'application/json', 
+               'Content-Type': 'image/png', 
                
             },
-            contentType: false, 
+            ContentType: false, 
             xhr : function(){
                 let xhr = new XMLHttpRequest();
                 xhr.overrideMimeType("text/plain");
@@ -70,7 +70,8 @@ $(document).ready(function(){
         });
         function isSuccess(data){
                        console.log(data);
-            //$('#response').append('<p> uploaded picture for coach ID: ' + data.value + '</p>');
+            $('#response').append('<p> uploaded picture for coach ID: ' + coachid+ '</p>');
+            $('#previewImage').attr('src', 'data:image/png;base64,' + data);
     }
     })
 });
