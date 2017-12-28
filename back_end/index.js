@@ -2,8 +2,7 @@
 
 const im = require('imagemagick');
 const fs = require('fs');
-const AWS = require("aws-sdk");
-let s3 = new AWS.s3();
+var S3 = require('aws-sdk/clients/s3');
 
 
 const postProcessResource = (resource, fn) => {
@@ -44,7 +43,8 @@ const identify = (req, callback) => {
     });
 };
 
-const resize = (req, callback) => {
+const resize = (coachid, req, callback) => {
+    
     const resizeReq = req;
     
     if (!resizeReq.base64Image) {
@@ -68,7 +68,30 @@ const resize = (req, callback) => {
                 throw err;
             } else {
                 console.log('Resize operation completed successfully');
-                callback(null, postProcessResource(resizedFile, (file) => new Buffer(fs.readFileSync(file)).toString('base64')));
+                console.log("buffer start");
+                let buf = postProcessResource(resizedFile, (file) =>new Buffer(fs.readFileSync(file)).toString('base64'));
+                console.log("buffer completed");
+                
+                
+                var data = {
+                    Bucket: "coachpic.healthlate.com", 
+                    Key: "coachid", 
+                    Body: buf, 
+                    ContentTye: 'image/png', 
+                    ACL: 'public-read'
+                };
+                S3.putObject(data, function (err, data){
+                    if(err){
+                        console.log("s3 error: " + err);
+                        console.log("Error uploading data: ", data);
+                    }else{
+                        console.log("successfully upladed the image");
+                    }
+                    
+                });
+    
+                
+                callback(null, data);
             }
         });
     } catch (err) {
@@ -134,7 +157,7 @@ exports.handler = (event, context, callback) => {
             break;
         case 'thumbnail':  // Synonym for resize
         case 'resize':
-            resize(req, callback);
+            resize(this_id, req, callback);
             break;
         case 'getSample':
             req.customArgs = ['rose:'];
