@@ -108,6 +108,11 @@ const convert = (req, callback) => {
 
 
 exports.handler = (event, context, callback) => {
+    let this_id = -1;
+   
+        this_id = event.coachid_internal;
+    
+    console.log('Lambda started, coachid: ' + this_id + ' .');
     const req = event;
     const operation = req.operation;
     delete req.operation;
