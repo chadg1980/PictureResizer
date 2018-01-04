@@ -37,7 +37,8 @@ $(document).ready(function(){
         
         $.ajax({
              url : url_with_param,
-            Accepts: "img/png", 
+            //Accepts: "img/png", 
+                        Accepts: "text/plain; charset=utf-8", 
             type: 'post',
             processData: false,
             data: fileData, 

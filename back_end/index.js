@@ -3,7 +3,7 @@
 const im = require('imagemagick');
 const sharp = require('sharp');
 const fs = require('fs');
-var S3 = require('aws-sdk/clients/s3');
+let S3 = require('aws-sdk/clients/s3');
 
 
 const postProcessResource = (resource, fn) => {
@@ -57,8 +57,23 @@ const resize = (coachid, req, callback) => {
     if (!resizeReq.height && !resizeReq.width) {
         resizeReq.width = 200;
     }
-    const resizedFile = `/tmp/resized.${(resizeReq.outputExtension || 'png')}`;
-    const buffer = new Buffer(resizeReq.base64Image, 'base64');
+    //const resizedFile = `/tmp/resized.${(resizeReq.outputExtension || 'png')}`;
+    //const buffer = new Buffer(resizeReq.base64Image, 'base64');
+    sharp(new Buffer(resizeReq.base64Image, 'base64')).resize(200, 200).toBuffer(function(err, data) { 
+        if(err){
+            console.log("error");
+            callback("error:  " + err +" data: " + data);
+        }
+        else{
+            console.log("buffer completed");
+            console.log(data);
+            callback("data: " + data);
+        }
+
+    });
+    
+
+    /*
     delete resizeReq.base64Image;
     delete resizeReq.outputExtension;
     resizeReq.srcData = buffer;
@@ -99,8 +114,9 @@ const resize = (coachid, req, callback) => {
         console.log('Resize operation failed:', err);
         callback(err);
     }
+    */
 };
-
+/*
 const convert = (req, callback) => {
     const customArgs = req.customArgs || [];
     let inputFile = null;
@@ -132,7 +148,7 @@ const convert = (req, callback) => {
     });
 };
 
-
+*/
 exports.handler = (event, context, callback) => {
     let this_id = -1;
    
