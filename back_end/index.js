@@ -1,6 +1,7 @@
 'use strict';
 
 const im = require('imagemagick');
+const sharp = require('sharp');
 const fs = require('fs');
 var S3 = require('aws-sdk/clients/s3');
 
