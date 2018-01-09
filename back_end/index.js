@@ -1,9 +1,10 @@
 'use strict';
 
-const im = require('imagemagick');
 const sharp = require('sharp');
-const fs = require('fs');
-let s3 = require('aws-sdk/clients/s3');
+//const fs = require('fs');
+const AWS = require('aws-sdk');
+let s3 = new AWS.S3();
+//let s3 = require('aws-sdk/clients/s3');
 
 
 const postProcessResource = (resource, fn) => {
@@ -21,7 +22,7 @@ const postProcessResource = (resource, fn) => {
     return ret;
 };
 
-
+/*
 const identify = (req, callback) => {
     if (!req.base64Image) {
         const msg = 'Invalid identify request: no "base64Image" field supplied';
@@ -42,7 +43,7 @@ const identify = (req, callback) => {
             callback(null, output);
         }
     });
-};
+};*/
 
 const resize = (coachid, req, callback) => {
     
@@ -69,21 +70,22 @@ const resize = (coachid, req, callback) => {
             //console.log(data.toString('base64'));
             //console.log(JSON.stringify(data));
             let buf = Buffer.from(data.toString('base64').replace(/^data:image\/\w+;base64,/, ""),"base64");
-            let data = {
+            let params = {
                     Bucket: "coachpic.healthlate.com", 
-                    Key: "coachid", 
+                    Key: "coachid_" + coachid, 
                     Body: buf, 
-                    ContentTye: 'image/png', 
+                    ContentType: 'image/png', 
                     ACL: 'public-read'
                 };
-                s3Bucket.putObject(data, function (err, data){
+                s3.putObject(params, function (err, data){
                     if(err){
                         console.log("s3 error: " + err);
                         console.log("Error uploading data: ", data);
+                        callback(err);
                     }else{
                         console.log("successfully upladed the image");
                     }
-                    callback(null, data);
+                    callback(null, "success");
                     
                 });
 
