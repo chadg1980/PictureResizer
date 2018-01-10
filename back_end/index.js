@@ -3,7 +3,7 @@
 const sharp = require('sharp');
 //const fs = require('fs');
 const AWS = require('aws-sdk');
-const fileType = require('file-type');
+//const fileType = require('file-type');
 //let s3 = new AWS.S3();
 
 let getFile = function(coachid, buffer){

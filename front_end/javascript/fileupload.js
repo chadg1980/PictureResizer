@@ -30,16 +30,12 @@ $(document).ready(function(){
         let coachid = myData[0].value;
         const url_up = 'https://gbb8xz2947.execute-api.us-east-1.amazonaws.com/coach_pic?coachid='
         let url_with_param = url_up + coachid;
-        //console.log(fileData);
 
-              
-       
-        
         $.ajax({
              url : url_with_param,
             //Accepts: "img/png", 
-                        Accepts: "text/plain; charset=utf-8", 
-            type: 'post',
+                        Accepts: "text/json; charset=utf-8", 
+            method: 'post',
             processData: false,
             data: fileData, 
             headers: {
@@ -67,10 +63,13 @@ $(document).ready(function(){
             
             
         }).done(isSuccess).fail(function (xhr, status){
+
             console.log("status: " + status);
         });
-        function isSuccess(data){
-                       console.log(data);
+        function isSuccess(data, status, err){
+                       console.log("status: " + status);
+                       console.log(err);
+                       
             $('#response').append('<p> uploaded picture for coach ID: ' + coachid+ '</p>');
             $('#previewImage').attr('src', 'data:image/png;base64,' + data);
     }
