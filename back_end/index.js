@@ -1,16 +1,13 @@
 'use strict';
-
 const sharp = require('sharp');
-//const fs = require('fs');
 const AWS = require('aws-sdk');
-//const fileType = require('file-type');
-//let s3 = new AWS.S3();
+const fileType = require('file-type');
 
 let getFile = function(coachid, buffer){
-    //fileName = "coachid_" + coachid, 
+    let fileName = "coachid_" + coachid; 
     let params = {
             Bucket: "coachpic.healthlate.com", 
-            Key:  this_id + ".png"
+            Key:  this_id + ".png", 
             Body: buf, 
             ContentType: 'image/png', 
             ACL: 'public-read'
@@ -42,19 +39,22 @@ exports.handler = (event, context, callback) => {
         req.width = 200;
     }
 
-    let fileMime = fileType(file);
-    console.log("file type = " + fileMime.ext);
-    console.log("Hello0");
-
-    let file = getFile(fileMime, this_id, req.base64Image);
+    //let file = getFile(fileMime, this_id, req.base64Image);
     
-    sharp(new Buffer(req.base64Image, 'base64')).resize(200, 200).toBuffer(function(err, data) { 
-        if(err){
-            throw (err);
-        }
-        
-        let buf = Buffer.from(data.toString('base64').replace(/^data:image\/\w+;base64,/, ""),"base64");
-        console.log("Hello1");
+    sharp(new Buffer(req.base64Image, 'base64'))
+        .resize(200, 200)
+        .toBuffer(function(err, data) { 
+        .then( data => {
+            cosnole.log("Inside Sharp");
+        }).catch( err =>{
+            callback(null, "error");
+        });
+        callback(null, "complete");
+        //let fileMime = fileType(data);
+        //console.log("file type = " + fileMime);
+        // console.log("data: " + data);
+        // let buf = Buffer.from(data.toString('base64').replace(/^data:image\/\w+;base64,/, ""),"base64");
+        // console.log("buf: " + buf);
         /*
         s3.putObject(params, function (err, data){
             if(err){
@@ -71,6 +71,7 @@ exports.handler = (event, context, callback) => {
                 
             });
             */
-    });
+ 
+    
     
 };
