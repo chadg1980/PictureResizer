@@ -33,13 +33,17 @@ $(document).ready(function(){
 
         $.ajax({
              url : url_with_param,
-            //Accepts: "img/png", 
-                        Accepts: "text/json; charset=utf-8", 
+            accepts: {
+                text: "text/plain", 
+                JSON: "application/json"
+            }, 
+                        
             method: 'post',
             processData: false,
             data: fileData, 
             headers: {
-               'Content-Type': 'image/png', 
+               'Content-Type': 'image/png',
+               
                
             },
             ContentType: false, 
@@ -71,7 +75,8 @@ $(document).ready(function(){
                        console.log(err);
                        
             $('#response').append('<p> uploaded picture for coach ID: ' + coachid+ '</p>');
-            $('#previewImage').attr('src', 'data:image/png;base64,' + data);
+            //$('#previewImage').attr('src', 'data:image/png;base64,' + data);
+            $('#response').append('<p> data: ' + data +" </p>");
     }
     })
 });

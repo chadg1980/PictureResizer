@@ -5,7 +5,7 @@ const fileType = require('file-type');
 
 let getFile = function(coachid, buffer){
     let fileName = "coachid_" + coachid; 
-    let params = {
+    let file_params = {
             Bucket: "coachpic.healthlate.com", 
             Key:  this_id + ".png", 
             Body: buf, 
@@ -42,14 +42,21 @@ exports.handler = (event, context, callback) => {
     //let file = getFile(fileMime, this_id, req.base64Image);
     
     sharp(new Buffer(req.base64Image, 'base64'))
-        .resize(200, 200)
-        .toBuffer(function(err, data) { 
-        .then( data => {
-            cosnole.log("Inside Sharp");
-        }).catch( err =>{
-            callback(null, "error");
-        });
-        callback(null, "complete");
+        .resize(req.width, req.width)
+        .toBuffer(function(err, data, info) {
+            console.log("Inside buffer");
+            if(err){
+                console.log("err " + err);
+                callback(err);
+            }
+            console.log("Data:")
+            console.log(data);
+            console.log("info");
+            console.log(info);
+
+            callback(null, data);
+        });  
+        
         //let fileMime = fileType(data);
         //console.log("file type = " + fileMime);
         // console.log("data: " + data);
