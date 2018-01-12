@@ -75,7 +75,7 @@ $(document).ready(function(){
                        console.log(err);
                        
             $('#response').append('<p> uploaded picture for coach ID: ' + coachid+ '</p>');
-            //$('#previewImage').attr('src', 'data:image/png;base64,' + data);
+            $('#previewImage').attr('src', data);
             $('#response').append('<p> data: ' + data +" </p>");
     }
     })
