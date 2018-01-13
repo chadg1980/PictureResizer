@@ -6,15 +6,28 @@ const s3 = new AWS.S3({apiVersion: '2006-03-01', region: 'us-east-1'});
 
 function getContent(ext){
     if(ext == 'png' || ext == 'PNG'){
-            return 'image/png'
-        }
+        return 'image/png'
+    }
     if(ext == 'jpg' || ext == 'JPG'){
         return 'image/jpeg'   
     }
-   
+
     console.log("ext unknown " + ext);
     callback(null, "unknown file extention " + ext);
+
+}
+
+function getParams(image_name_ext, data, imageContentType){
+
+    let params = {
+        Bucket: "coachpic.healthlate.com", 
+        Key:  image_name_ext, 
+        Body: data, 
+        ContentType: imageContentType
         
+    };
+    return params;
+
 }
 
 exports.handler = (event, context, callback) => {
@@ -28,6 +41,7 @@ exports.handler = (event, context, callback) => {
     let ext;
     let fileName = "coachid_" +this_id; 
     let imageContentType;
+    let image_name_ext
     delete req.operation;
     /*
     if (operation) {
@@ -53,38 +67,30 @@ exports.handler = (event, context, callback) => {
         console.log(info);
         console.log("data")
         console.log(data);
+
         ext = info.format;
         if(ext == 'jpeg' || ext == 'JPEG'){
             ext = "jpg";
         }
-        console.log("extention is " + ext);
         imageContentType = getContent(ext);
-
-        let image_name_ext = fileName+"."+ext;
+        image_name_ext = fileName+"."+ext;
         
 
-        let file_params = {
-            Bucket: "coachpic.healthlate.com", 
-            Key:  image_name_ext, 
-            Body: data, 
-            ContentType: imageContentType
-            
-        };
+        let file_params = getParams(image_name_ext, data, imageContentType);
 
         s3.putObject(file_params, function (err, data){
             if(err){
 
                 console.log("s3 error: " + err);
-                    //console.log("Error uploading data: ", data);
-                    callback(null, err);
-                }else{
-                    console.log("s3 data");
-                    console.log(data);
-                    console.log("successfully upladed the image");
-                    callback(null, "https://s3.amazonaws.com/coachpic.healthlate.com/"+image_name_ext);
-                }
+                //console.log("Error uploading data: ", data);
+                callback(null, err);
+            }else{
+                console.log("s3 data");
+                console.log(data);
+                console.log("successfully upladed the image");
+                callback(null, "https://s3.amazonaws.com/coachpic.healthlate.com/"+image_name_ext);
+            }
 
-
-            });
+        });
     })
 };
