@@ -18,6 +18,21 @@ function getContent(ext){
 
 
 
+function getParams(image_name_ext, data, imageContentType){
+
+    let params = {
+        Bucket: "coachpic.healthlate.com", 
+        Key:  image_name_ext, 
+        Body: data, 
+        ContentType: imageContentType
+        
+    };
+    return params;
+
+}
+
+
+
 exports.handler = (event, context, callback) => {
     let this_id = -1;
     this_id = event.coachid_internal;
