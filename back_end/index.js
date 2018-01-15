@@ -6,15 +6,15 @@ const s3 = new AWS.S3({apiVersion: '2006-03-01', region: 'us-east-1'});
 
 function getContent(ext){
     if(ext == 'png' || ext == 'PNG'){
-            return 'image/png'
-        }
+        return 'image/png'
+    }
     if(ext == 'jpg' || ext == 'JPG'){
         return 'image/jpeg'   
     }
-   
+
     console.log("ext unknown " + ext);
     callback(null, "unknown file extention " + ext);
-        
+
 }
 
 exports.handler = (event, context, callback) => {
@@ -83,7 +83,6 @@ exports.handler = (event, context, callback) => {
                     console.log("successfully upladed the image");
                     callback(null, "https://s3.amazonaws.com/coachpic.healthlate.com/"+image_name_ext);
                 }
-
 
             });
     })

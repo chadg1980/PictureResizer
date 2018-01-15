@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
 
-<meta charset="utf-8">
-<title>Coach Profile Picture Uploader</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<meta charset="utf-8">
+	<title>Coach Profile Picture Uploader</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="css/fileupload.css">
+	<link rel="stylesheet" href="css/fileupload.css">
 
 
 </head>
 
 <body>
 	<div id="main">
-	
-	<form method="post" id="uploadForm" name="uploadForm" type="POST" action="" enctype="multipart/form-data">
-	
+		
+		<form method="post" id="uploadForm" name="uploadForm" type="POST" action="" enctype="multipart/form-data">
+			
 			<legend> Upload a profile picture</legend>
 			<div>
 				<label for="coachid"> Coach ID </label>
@@ -23,36 +23,33 @@
 			</div>
 			<div>
 				<label for="picture">Choose a profile picture</label>
-			<input type="file" multiple accept ="image/*" name="picfile" id="picfile"> 
+				<input type="file" multiple accept ="image/*" name="picfile" id="picfile"> 
 			</div>
 			<div>
 				<input type="submit" id="btn" name="btn" value="submit">
 
-		
-				
-		
-	</form>
-	<br/>
-	
-	<br/>
-	<!-- Progress Bar -->
-<div class="row">
-    <div class="col-md-12">
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                <span class="sr-only"></span>
+			</form>
+			<br/>
+			
+			<br/>
+			<!-- Progress Bar -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="progress">
+						<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+							<span class="sr-only"></span>
 
-            </div>
-        </div>
-    </div>
-</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-	<div id="response"><ul id="image-list"><img src="" height="200" alt="Image preview..." id="previewImage"></ul>
-</div>
+			<div id="response"><ul id="image-list"><img src="" height="200" alt="Image preview..." id="previewImage"></ul>
+			</div>
 
-<script type="text/javascript" src="javascript/jquery-3.2.1.min.js"></script>
+			<script type="text/javascript" src="javascript/jquery-3.2.1.min.js"></script>
 
-<script type="text/javascript" src="javascript/fileupload.js"></script>
+			<script type="text/javascript" src="javascript/fileupload.js"></script>
 
-</body> 
-</html>
+		</body> 
+		</html>
