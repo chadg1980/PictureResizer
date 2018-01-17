@@ -18,8 +18,8 @@ $(document).ready(function(){
         let url_with_param = url_up + coachid;
 
         $.ajax({
-           url : url_with_param,
-           accepts: {
+         url : url_with_param,
+         accepts: {
             text: "text/plain", 
             JSON: "application/json"
         }, 
@@ -28,12 +28,12 @@ $(document).ready(function(){
         processData: false,
         data: fileData, 
         headers: {
-         'Content-Type': 'image/png',
+           'Content-Type': 'image/png',
 
 
-     },
-     ContentType: false, 
-     xhr : function(){
+       },
+       ContentType: false, 
+       xhr : function(){
         let xhr = new XMLHttpRequest();
         xhr.overrideMimeType("text/plain");
 
@@ -57,12 +57,12 @@ $(document).ready(function(){
     console.log("status: " + status);
 });
 function isSuccess(data, status, err){
- console.log("status: " + status);
- console.log(err);
+   console.log("status: " + status);
+   console.log(err);
 
- $('#response').append('<p> uploaded picture for coach ID: ' + coachid+ '</p>');
- $('#previewImage').attr('src', data);
- $('#response').append('<p> data: ' + data +" </p>");
+   $('#response').append('<p> uploaded picture for coach ID: ' + coachid+ '</p>');
+   $('#previewImage').attr('src', data);
+   $('#response').append('<p> data: ' + data +" </p>");
 }
 })
 });
