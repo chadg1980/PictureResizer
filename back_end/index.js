@@ -50,7 +50,7 @@ exports.handler = (event, context, callback) => {
     .png()
     .toBuffer()
     .then( data => {
-
+        
         console.log("data")
         console.log(data);
         image_name_ext = fileName+".png";
