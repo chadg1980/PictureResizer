@@ -18,53 +18,47 @@ $(document).ready(function(){
         let url_with_param = url_up + coachid;
 
         $.ajax({
-         url : url_with_param,
-         accepts: {
-            text: "text/plain", 
-            JSON: "application/json"
-        }, 
+            url : url_with_param,
+            accepts: {
+                text: "text/plain", 
+                JSON: "application/json"
+            }, 
 
-        method: 'post',
-        processData: false,
-        data: fileData, 
-        headers: {
-           'Content-Type': 'image/png',
+            method: 'post',
+            processData: false,
+            data: fileData, 
+            headers: {
+                'Content-Type': 'image/png',
+            },
+            ContentType: false, 
+            xhr : function(){
+                let xhr = new XMLHttpRequest();
+                xhr.overrideMimeType("text/plain");
+                xhr.upload.addEventListener('progress', function(event){
+                    let progressBar = $('.progress-bar');
 
-
-       },
-       ContentType: false, 
-       xhr : function(){
-        let xhr = new XMLHttpRequest();
-        xhr.overrideMimeType("text/plain");
-
-        xhr.upload.addEventListener('progress', function(event){
-            let progressBar = $('.progress-bar');
-
-            if(event.lengthComputable){
-                let percent = (event.loaded / event.total) * 100;
-                progressBar.width(percent + '%');
-                if(percent === 100){
-                    progressBar.removeClass('active');
-                }
+                    if(event.lengthComputable){
+                        let percent = (event.loaded / event.total) * 100;
+                        progressBar.width(percent + '%');
+                        if(percent === 100){
+                            progressBar.removeClass('active');
+                        }
+                    }
+                });
+                return xhr;
             }
+        }).done(isSuccess).fail(function (xhr, status){
+            console.log("status: " + status);
         });
-        return xhr;
-    }
+        function isSuccess(data, status, err){
+            console.log("status: " + status);
+            console.log(err);
 
-
-}).done(isSuccess).fail(function (xhr, status){
-
-    console.log("status: " + status);
-});
-function isSuccess(data, status, err){
-   console.log("status: " + status);
-   console.log(err);
-
-   $('#response').append('<p> uploaded picture for coach ID: ' + coachid+ '</p>');
-   $('#previewImage').attr('src', data);
-   $('#response').append('<p> data: ' + data +" </p>");
-}
-})
+            $('#response').append('<p> uploaded picture for coach ID: ' + coachid+ '</p>');
+            $('#previewImage').attr('src', data);
+            $('#response').append('<p> data: ' + data +" </p>");
+        }
+    })
 });
 
 
